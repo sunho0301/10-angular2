@@ -11,6 +11,7 @@
 
   <!-- load angular -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <script src="js/angular-credit-cards.js"></script>
   <!-- load our script -->
   <script src="js/payment.js"></script>
 </head>
@@ -21,28 +22,30 @@
 
   <div ng-controller="FormCtrl">
 
-    <form role="form">
+    <form novalidate role="form" name="payForm">
       <div class="form-group">
         <label for="username">Name:</label>
-        <input type="text" name="username" id="username" class="form-control">
+        <input type="text" name="username" id="username" class="form-control" ng-model="username" required ng-minlength="3">
+        <p ng-show="payForm.username.$invalid && payForm.username.$touched">Name is required and must be 3 minimum</p>
       </div>
 
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email" class="form-control">
+        <input type="email" name="email" id="email" class="form-control" ng-model="email">
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-class="{'form-group': true, 'has-error': payForm.zip.$invalid}">
         <label for="zip">Zip:</label>
-        <input type="text" name="zip" id="zip" class="form-control">
+        <input type="text" name="zip" id="zip" class="form-control" ng-model="zip" ng-minlength="5" ng-maxlength="5">
+        <p ng-show="payForm.zip.$invalid && payForm.zip.$touched">yoyoyo</p>
       </div>
 
       <div class="form-group">
         <label for="credit">Credit Card Number:</label>
-        <input type="text" name="credit" id="credit" class="form-control">
+        <input type="text" name="credit" id="credit" class="form-control" ng-model="credit" cc-number cc-eager-type="cardType">
       </div>
 
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" ng-click="submitForm(payForm)">Submit</button>
     </form>
 
   </div> <!-- end form wrapper -->
